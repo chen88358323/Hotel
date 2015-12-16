@@ -1,0 +1,143 @@
+package com.ming.servlet;
+
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.ming.entity.DinnerTable;
+import com.ming.factory.BeanFactory;
+import com.ming.service.IDinnerTableService;
+
+/**
+ * Servlet implementation class DinnerTableServlet
+ */
+@WebServlet("/DinnerTableServlet")
+public class DinnerTableServlet extends HttpServlet {
+	private IDinnerTableService dinnerTableService = BeanFactory.getInstance("dinnerTableService",
+			IDinnerTableService.class);
+	private Object url;
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text.html;charset=utf-8");
+
+		String methodName = request.getParameter("method");
+
+		if ("save".equals(methodName)) {
+			save(request, response);
+		} else if ("list".equals(methodName)) {
+			list(request, response);
+		}
+	}
+
+	/**
+	 * 列出所有餐桌
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 * @throws ServletException
+	 */
+	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+
+		try {
+			// 得到所有餐桌信息
+			List<DinnerTable> dinnerTableList = dinnerTableService.getAll();
+
+			// System.out.println("here:"+dinnerTableList);
+
+			request.setAttribute("dinnerTableList", dinnerTableList);
+			url = request.getRequestDispatcher("/sys/table/dinnertable_list.jsp");
+		} catch (Exception e) {
+			// TODO: handle exception
+			url = "/error/error.jsp";
+			throw new RuntimeException(e);
+		}
+		goTo(request, response, url);
+	}
+
+	/**
+	 * 添加方法
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 * @throws ServletException
+	 */
+	private void save(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
+			// TODO Auto-generated method stub
+			// 得到餐桌名字
+			String tableName = request.getParameter("tableName");
+			DinnerTable dinnerTable = new DinnerTable();
+			dinnerTable.setTableName(tableName);
+
+			// 设置订餐桌的时间
+			DateFormat dt = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			Date orderTable;
+
+			orderTable = dt.parse(dt.format(new Date()));
+			dinnerTable.setOrderDate(orderTable);
+
+			// 设置订餐状态
+			dinnerTable.setTableStatus(1);
+
+			// 保存餐桌信息
+			dinnerTableService.save(dinnerTable);
+
+			url = request.getRequestDispatcher("/DinnerTableServlet?method=list");
+		} catch (Exception e) {
+			// TODO: handle exception
+			url = "/error/error.jsp";
+			throw new RuntimeException(e);
+		}
+		goTo(request, response, url);
+	}
+
+	/**
+	 * 跳转方法
+	 * 
+	 * @param request
+	 * @param response
+	 * @param url2
+	 * @throws IOException
+	 * @throws ServletException
+	 */
+	private void goTo(HttpServletRequest request, HttpServletResponse response, Object url2)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		if (url instanceof RequestDispatcher) {
+			((RequestDispatcher) url).forward(request, response);
+		} else if (url instanceof String) {
+			response.sendRedirect(request.getContextPath() + "url");
+		}
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}
