@@ -21,6 +21,9 @@ public interface IDinnerTableService {
 	// 查询全部
 	List<DinnerTable> getAll();
 
-	// 根据菜系查询
+	// 根据餐桌名查询
 	List<DinnerTable> getAll(String tableName);
+	
+//	根据餐桌预定状态查询
+	List<DinnerTable> getStaAll(int tableStatus);
 }

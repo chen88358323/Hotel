@@ -38,9 +38,9 @@
 
 	<!-- 过滤条件 -->
 	<div id="QueryArea">
-		<form action="/wirelessplatform/board.html" method="get">
+		<form action="${pageContext.request.contextPath}/DinnerTableServlet?method=search" method="get">
 			<input type="hidden" name="method" value="search"> <input
-				type="text" name="keyword" title="请输入餐桌名称"> <input
+				type="text" name="keyName" title="请输入餐桌名称"> <input
 				type="submit" value="搜索">
 		</form>
 	</div>
@@ -91,14 +91,22 @@
 								<td align="center">${dinnerTable.orderDate}</td>
 								<td align="center">
 									<c:if test="${dinnerTable.tableStatus==0 }">
-										<a href="/wirelessplatform/board.html?method=update&id=1&isBook=0" class="FunctionButton">预定</a>
+										<a href="${pageContext.request.contextPath}/DinnerTableServlet?method=update&id=${dinnerTable.id }" class="FunctionButton">预定</a>
 									</c:if>
 									<c:if test="${dinnerTable.tableStatus==1 }">
-										<a href="/wirelessplatform/board.html?method=update&id=1&isBook=0" class="FunctionButton">退桌</a>
+										<a href="${pageContext.request.contextPath}/DinnerTableServlet?method=update&id=${dinnerTable.id }" class="FunctionButton">退桌</a>
 									</c:if>
-
-								<a href="/wirelessplatform/board.html?method=delete&id=1"
-									onClick="return delConfirm();" class="FunctionButton">删除</a>
+									
+									<c:if test="${dinnerTable.tableStatus==0 }">
+									
+										<a href="${pageContext.request.contextPath}/DinnerTableServlet?method=delete&id=${dinnerTable.id }"
+											onClick="return delConfirm();" class="FunctionButton">删除</a>
+									</c:if>
+									<c:if test="${dinnerTable.tableStatus==1 }">
+									
+										<a href="${pageContext.request.contextPath}/DinnerTableServlet?method=delete&id=${dinnerTable.id }"
+											onClick="return unDelConfirm();" class="FunctionButton">删除</a>
+									</c:if>
 								</td>
 							</tr>
 						</c:forEach>

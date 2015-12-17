@@ -43,7 +43,104 @@ public class DinnerTableServlet extends HttpServlet {
 			save(request, response);
 		} else if ("list".equals(methodName)) {
 			list(request, response);
+		} else if ("update".equals(methodName)) {
+			update(request, response);
+		} else if ("delete".equals(methodName)) {
+			delete(request, response);
+		} else if ("search".equals(methodName)) {
+			search(request, response);
 		}
+	}
+
+	/**
+	 * 根据餐桌状态搜索
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws IOException 
+	 * @throws ServletException 
+	 */
+	private void search(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		String keyName = request.getParameter("keyName");
+		
+		List<DinnerTable> dinnerTableList = null;
+		if ("预定".equals(keyName)) {
+			dinnerTableList = dinnerTableService.getStaAll(1);
+
+			// 将查询结果封装到request域中
+			request.setAttribute("dinnerTableList", dinnerTableList);
+
+			url = request.getRequestDispatcher("/sys/table/dinnertable_list.jsp");
+		} else if ("空闲".equals(keyName)) {
+			dinnerTableList = dinnerTableService.getStaAll(0);
+
+			// 将查询结果封装到request域中
+			request.setAttribute("dinnerTableList", dinnerTableList);
+
+			url = request.getRequestDispatcher("/sys/table/dinnertable_list.jsp");
+		}
+		goTo(request, response, url);
+	}
+
+	/**
+	 * 删除餐桌
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 * @throws ServletException
+	 */
+	private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		// 得到参数
+		String idStr = request.getParameter("id");
+		int id = Integer.parseInt(idStr);
+
+		try {
+			// 删除餐桌
+			dinnerTableService.delete(id);
+			// 跳转到展示页面
+			url = request.getRequestDispatcher("/DinnerTableServlet?method=list");
+		} catch (Exception e) {
+			// TODO: handle exception
+			url = "/error/error.jsp";
+			throw new RuntimeException(e);
+		}
+		goTo(request, response, url);
+	}
+
+	/**
+	 * 预定或者退桌
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 * @throws ServletException
+	 */
+	private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+
+		// 得到参数
+		String idStr = request.getParameter("id");
+		int id = Integer.parseInt(idStr);
+
+		// 根据得到的id查询对应的餐桌
+		DinnerTable dinnerTable = dinnerTableService.findById(id);
+
+		try {
+			// 更新餐桌信息
+			dinnerTableService.update(dinnerTable);
+
+			// 跳转到展示页面
+			url = request.getRequestDispatcher("/DinnerTableServlet?method=list");
+		} catch (Exception e) {
+			// TODO: handle exception
+			url = "/error/error.jsp";
+			throw new RuntimeException(e);
+		}
+		goTo(request, response, url);
+
 	}
 
 	/**
@@ -88,16 +185,6 @@ public class DinnerTableServlet extends HttpServlet {
 			String tableName = request.getParameter("tableName");
 			DinnerTable dinnerTable = new DinnerTable();
 			dinnerTable.setTableName(tableName);
-
-			// 设置订餐桌的时间
-			DateFormat dt = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-			Date orderTable;
-
-			orderTable = dt.parse(dt.format(new Date()));
-			dinnerTable.setOrderDate(orderTable);
-
-			// 设置订餐状态
-			dinnerTable.setTableStatus(1);
 
 			// 保存餐桌信息
 			dinnerTableService.save(dinnerTable);

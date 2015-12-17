@@ -1,9 +1,9 @@
 package com.ming.dao;
 
 import java.util.List;
-
 import com.ming.entity.DinnerTable;
-import com.ming.entity.FoodType;
+
+
 
 public interface IDinnerTableDao {
 	// 添加
@@ -21,6 +21,9 @@ public interface IDinnerTableDao {
 	// 查询全部
 	List<DinnerTable> getAll();
 
-	// 根据菜系查询
+	// 根据餐桌名查询
 	List<DinnerTable> getAll(String tableName);
+	
+//	根据餐桌预定状态查询
+	List<DinnerTable> getStaAll(int tableStatus);
 }

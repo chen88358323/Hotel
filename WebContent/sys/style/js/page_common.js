@@ -99,6 +99,13 @@ function delConfirm(){
 	return window.confirm("您确定要删除一条记录码？");	
 }
 
+/**
+ * 已經预定的餐桌不能刪除
+ * @returns
+ */
+function unDelConfirm(){
+	return window.confirm("餐桌被预定，不能删除！");	
+}
 
 
 /**
