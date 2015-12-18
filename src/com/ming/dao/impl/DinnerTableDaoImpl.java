@@ -26,9 +26,10 @@ public class DinnerTableDaoImpl implements IDinnerTableDao {
 	@Override
 	public void update(DinnerTable dinnerTable) {
 		// TODO Auto-generated method stub
-		String sql="update dinnerTable set tableStatus=?,orderDate=? where id=?;";
+		String sql = "update dinnerTable set tableStatus=?,orderDate=? where id=?;";
 		try {
-			JdbcUtils.getQuneryRunner().update(sql,dinnerTable.getTableStatus(),dinnerTable.getOrderDate(),dinnerTable.getId());
+			JdbcUtils.getQuneryRunner().update(sql, dinnerTable.getTableStatus(), dinnerTable.getOrderDate(),
+					dinnerTable.getId());
 		} catch (Exception e) {
 			// TODO: handle exception
 			throw new RuntimeException(e);
@@ -39,9 +40,9 @@ public class DinnerTableDaoImpl implements IDinnerTableDao {
 	@Override
 	public void delete(int id) {
 		// TODO Auto-generated method stub
-		String sql="delete from dinnerTable where id=?;";
+		String sql = "delete from dinnerTable where id=?;";
 		try {
-			JdbcUtils.getQuneryRunner().update(sql,id);
+			JdbcUtils.getQuneryRunner().update(sql, id);
 		} catch (Exception e) {
 			// TODO: handle exception
 			throw new RuntimeException(e);
@@ -52,9 +53,9 @@ public class DinnerTableDaoImpl implements IDinnerTableDao {
 	@Override
 	public DinnerTable findById(int id) {
 		// TODO Auto-generated method stub
-		String sql="select * from dinnerTable where id=?;";
+		String sql = "select * from dinnerTable where id=?;";
 		try {
-			return JdbcUtils.getQuneryRunner().query(sql, new BeanHandler<DinnerTable>(DinnerTable.class),id);
+			return JdbcUtils.getQuneryRunner().query(sql, new BeanHandler<DinnerTable>(DinnerTable.class), id);
 		} catch (Exception e) {
 			// TODO: handle exception
 			throw new RuntimeException(e);
@@ -64,7 +65,7 @@ public class DinnerTableDaoImpl implements IDinnerTableDao {
 	@Override
 	public List<DinnerTable> getAll() {
 		// TODO Auto-generated method stub
-		String sql="select * from dinnerTable;";
+		String sql = "select * from dinnerTable;";
 		try {
 			return JdbcUtils.getQuneryRunner().query(sql, new BeanListHandler<DinnerTable>(DinnerTable.class));
 		} catch (Exception e) {
@@ -76,9 +77,10 @@ public class DinnerTableDaoImpl implements IDinnerTableDao {
 	@Override
 	public List<DinnerTable> getAll(String tableName) {
 		// TODO Auto-generated method stub
-		String sql="select * from dinnerTable where tableName=?";
+		String sql = "select * from dinnerTable where tableName=?";
 		try {
-			return JdbcUtils.getQuneryRunner().query(sql, new BeanListHandler<DinnerTable>(DinnerTable.class),"%"+tableName+"%");
+			return JdbcUtils.getQuneryRunner().query(sql, new BeanListHandler<DinnerTable>(DinnerTable.class),
+					"%" + tableName + "%");
 		} catch (Exception e) {
 			// TODO: handle exception
 			throw new RuntimeException(e);
@@ -88,9 +90,10 @@ public class DinnerTableDaoImpl implements IDinnerTableDao {
 	@Override
 	public List<DinnerTable> getStaAll(int tableStatus) {
 		// TODO Auto-generated method stub
-		String sql="select * from dinnerTable where tableStatus=?";
+		String sql = "select * from dinnerTable where tableStatus=?";
 		try {
-			return JdbcUtils.getQuneryRunner().query(sql, new BeanListHandler<DinnerTable>(DinnerTable.class),tableStatus);
+			return JdbcUtils.getQuneryRunner().query(sql, new BeanListHandler<DinnerTable>(DinnerTable.class),
+					tableStatus);
 		} catch (Exception e) {
 			// TODO: handle exception
 			throw new RuntimeException(e);

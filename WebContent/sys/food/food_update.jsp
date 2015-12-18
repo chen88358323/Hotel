@@ -10,10 +10,10 @@
 
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<script type="text/javascript" src="${pageContext.request.contextPath}/sys/public/style/js/jquery.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/sys/public/style/js/page_common.js"></script>
-<link href="${pageContext.request.contextPath}/sys/public/style/css/common_style_blue.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/sys/public/style/css/index_1.css" />
+<script type="text/javascript" src="${pageContext.request.contextPath}/sys/style/js/jquery.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/sys/style/js/page_common.js"></script>
+<link href="${pageContext.request.contextPath}/sys/style/css/common_style_blue.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/sys/style/css/index_1.css" />
 </head>
 <body>
 
@@ -24,8 +24,8 @@
 		<div id="TitleArea_Title_Content">
 			
 				
+					<img border="0" width="13" height="13" src="${pageContext.request.contextPath}/sys/style/images/title_arrow.gif"/> 更新新菜品
 				
-					<img border="0" width="13" height="13" src="${pageContext.request.contextPath}/sys/public/style/images/title_arrow.gif"/> 添加新菜品
 				
 			
 		</div>
@@ -39,9 +39,7 @@
 	<form action="#" method="post" enctype="multipart/form-data">
 		<!-- 本段标题（分段标题） -->
 		<div class="ItemBlock_Title">
-				<img width="4" height="7" border="0"
-					src="${pageContext.request.contextPath}/sys/public/style/images/item_point.gif">
-				菜品信息&nbsp;
+        	<img width="4" height="7" border="0" src="${pageContext.request.contextPath}/sys/style/images/item_point.gif"> 菜品信息&nbsp;
         </div>
 		<!-- 本段表单字段 -->
         <div class="ItemBlockBorder">
@@ -54,7 +52,7 @@
                             <select name="cid" style="width:80px">
 	                            
 			   						<option value="1" 
-			   							
+			   							selected="selected"
 			   						>粤菜</option>
 			   						
 			   					
@@ -74,28 +72,32 @@
 			   						
 			   					
                             </select>
-                             *<input type="hidden" name="id" value="" /></td>
+                             *<input type="hidden" name="id" value="1" /></td>
 						</tr>
 						<tr>
 							<td width="80px">菜名</td>
-							<td><input type="text" name="foodName" class="InputStyle" value=""/> *</td>
+							<td><input type="text" name="foodName" class="InputStyle" value="白灼虾"/> *</td>
 						</tr>
 						<tr>
 							<td>价格</td>
-							<td><input type="text" name="price" class="InputStyle" value=""/> *</td>
+							<td><input type="text" name="price" class="InputStyle" value="36.0"/> *</td>
 						</tr>
                         <tr>
 							<td>会员价格</td>
-							<td><input type="text" name="mprice" class="InputStyle" value=""/> *</td>
+							<td><input type="text" name="mprice" class="InputStyle" value="23.0"/> *</td>
 						</tr>
 						
 						<tr>
 							<td>简介</td>
-							<td><textarea name="introduce" class="TextareaStyle"></textarea></td>
+							<td><textarea name="introduce" class="TextareaStyle">粤菜白灼虾，大件！</textarea></td>
 						</tr>
 						<tr>
 							<td width="80px">菜品图片</td>
 							<td>
+								
+									<img style='max-width:68px;width:68px;width:expression(width>68?"68px":width "px");max-width: 68px;' 
+									src="style/images/baizhuoxia.jpg">
+									<input type="hidden" name="image" value="baizhuoxia.jpg">
 								
 								<input type="file" name="imageUrl"/> *
 							</td>
@@ -110,8 +112,8 @@
 		<div id="InputDetailBar">
             
 				
+					 <input type="submit" value="修改" class="FunctionButtonInput">
 				
-					 <input type="submit" value="添加" class="FunctionButtonInput">
 				
 			
             

@@ -97,7 +97,7 @@ body {
                 	<a target="right" href="${pageContext.request.contextPath}/FoodTypeServlet?method=list">菜系管理</a>
 				</li>
                 <li class="level2 level2Style">
-                	<a target="right" href="${pageContext.request.contextPath}/sys/foodList.jsp">菜品管理</a>
+                	<a target="right" href="${pageContext.request.contextPath}/sys/food/food_list.jsp">菜品管理</a>
 				</li>
                 <li class="level2 level2Style">
                 	<a target="right" href="${pageContext.request.contextPath}/sys/orderList.jsp">餐厅订单</a>
