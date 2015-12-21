@@ -59,8 +59,57 @@ public class FoodServlet extends HttpServlet {
 			save(request, response);
 		} else if ("saveList".equals(methodName)) {
 			saveList(request, response);
+		}else if ("list".equals(methodName)) {
+			list(request,response);
+		}else if ("update".equals(methodName)) {
+			update(request,response);
 		}
 
+	}
+
+	/**
+	 * 更新菜品
+	 * @param request
+	 * @param response
+	 * @throws IOException 
+	 * @throws ServletException 
+	 */
+	private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		
+		int id = Integer.parseInt(request.getParameter("id").toString());
+		Food food = foodService.findById(id);
+		
+		try {
+			request.setAttribute("food", food);
+			url=request.getRequestDispatcher("/sys/food/food_update.jsp");
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw new RuntimeException();
+		}
+		goTo(request, response, url);
+		
+	}
+
+	/**
+	 * 列出所有菜品
+	 * @param request
+	 * @param response
+	 * @throws IOException 
+	 * @throws ServletException 
+	 */
+	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		List<Food> foodList = foodService.getAll();
+		
+		try {
+			request.setAttribute("foodList", foodList);
+			url = request.getRequestDispatcher("/sys/food/food_list.jsp");
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw new RuntimeException(e);
+		}
+		goTo(request,response,url);
 	}
 
 	/**

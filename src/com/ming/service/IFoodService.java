@@ -1,5 +1,7 @@
 package com.ming.service;
 
+import java.util.List;
+
 import com.ming.entity.Food;
 
 public interface IFoodService {
@@ -14,4 +16,7 @@ public interface IFoodService {
 
 	// 根据id查询菜品
 	public Food findById(int id);
+	
+	//查询所有菜品
+	public List<Food> getAll();
 }

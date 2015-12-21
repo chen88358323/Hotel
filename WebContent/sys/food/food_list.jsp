@@ -1,6 +1,9 @@
-﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
+﻿<%@page import="com.ming.entity.FoodType"%>
+<%@page import="com.ming.service.IFoodTypeService"%>
+<%@page import="com.ming.factory.BeanFactory"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -38,7 +41,7 @@
 	<!-- 过滤条件 -->
 	<div id="QueryArea">
 		<form
-			action="${pageContext.request.contextPath}/FoodServlet?method=list"
+			action="${pageContext.request.contextPath}/FoodServlet?method=search"
 			method="get">
 			<input type="hidden" name="method" value="search"> <input
 				type="text" name="keyword" title="请输入菜品名称"> <input
@@ -62,7 +65,7 @@
 			</thead>
 			<!--显示数据列表 -->
 			<tbody id="TableData">
-
+				<!-- 
 				<tr class="TableDetail1">
 					<td>1&nbsp;</td>
 					<td>白灼虾&nbsp;</td>
@@ -75,9 +78,32 @@
 						href="${pageContext.request.contextPath}/sys/wirelessplatform/food.jsp?method=delete&id=1"
 						onClick="return delConfirm();" class="FunctionButton">删除</a></td>
 				</tr>
+				 -->
 				<c:choose>
-					<c:when test="">
-					
+					<c:when test="${not empty requestScope.foodList}">
+						<c:forEach var="food" items="${requestScope.foodList}" varStatus="vs">
+							<tr class="TableDetail1">
+								<td>${vs.count}&nbsp;</td>
+								<td>${food.foodName }&nbsp;</td>
+								<td>
+									<c:set var="foodType_id" value="${food.foodType_id }"></c:set>
+									<%
+										int foodType_id=Integer.parseInt(pageContext.getAttribute("foodType_id").toString());
+										IFoodTypeService foodTypeService=BeanFactory.getInstance("foodTypeService",IFoodTypeService.class);
+										FoodType foodType=foodTypeService.findById(foodType_id);
+										out.print(foodType.getTypeName());
+									%>
+									&nbsp;
+								</td>
+								<td>${food.price }&nbsp;</td>
+								<td>${food.mprice }&nbsp;</td>
+								<td><a
+									href="${pageContext.request.contextPath}/FoodServlet?id=${food.id}&method=update"
+									class="FunctionButton">更新</a> <a
+									href="${pageContext.request.contextPath}/sys/wirelessplatform/food.jsp?method=delete&id=1"
+									onClick="return delConfirm();" class="FunctionButton">删除</a></td>
+							</tr>
+						</c:forEach>
 					</c:when>
 					<c:otherwise>
 						<tr>
@@ -92,7 +118,8 @@
 		<!-- 其他功能超链接 -->
 		<div id="TableTail" align="center">
 			<div class="FunctionButton">
-				<a href="${pageContext.request.contextPath}/FoodServlet?method=saveList">添加</a>
+				<a
+					href="${pageContext.request.contextPath}/FoodServlet?method=saveList">添加</a>
 			</div>
 		</div>
 	</div>

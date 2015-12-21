@@ -1,6 +1,8 @@
 package com.ming.service.impl;
 
 
+import java.util.List;
+
 import com.ming.dao.IFoodDao;
 import com.ming.entity.Food;
 import com.ming.factory.BeanFactory;
@@ -33,6 +35,12 @@ public class FoodServiceImpl implements IFoodService {
 	public Food findById(int id) {
 		// TODO Auto-generated method stub
 		return foodDao.findById(id);
+	}
+
+	@Override
+	public List<Food> getAll() {
+		// TODO Auto-generated method stub
+		return foodDao.getAll();
 	}
 
 }

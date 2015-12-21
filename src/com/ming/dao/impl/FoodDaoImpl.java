@@ -1,6 +1,10 @@
 package com.ming.dao.impl;
 
+import java.sql.SQLException;
+import java.util.List;
+
 import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import com.ming.dao.IFoodDao;
 import com.ming.entity.Food;
@@ -54,6 +58,19 @@ public class FoodDaoImpl implements IFoodDao {
 		} catch (Exception e) {
 			// TODO: handle exception
 			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public List<Food> getAll() {
+		// TODO Auto-generated method stub
+		String sql = "select * from food;";
+		try {
+			return JdbcUtils.getQuneryRunner().query(sql, new BeanListHandler<Food>(Food.class));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new RuntimeException();
 		}
 	}
 

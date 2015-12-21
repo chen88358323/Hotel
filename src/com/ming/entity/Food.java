@@ -1,6 +1,5 @@
 package com.ming.entity;
 
-import java.awt.Image;
 
 public class Food {
 	private int id; // 主键
