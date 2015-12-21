@@ -48,7 +48,7 @@
 	<!-- 主内容区域（数据列表或表单显示） -->
 	<div id="MainArea">
 		<!-- 表单内容 -->
-		<form action="#" method="post" enctype="multipart/form-data">
+		<form action="${pageContext.request.contextPath}/FoodServlet?method=update" method="post" enctype="multipart/form-data">
 			<!-- 本段标题（分段标题） -->
 			<div class="ItemBlock_Title">
 				<img width="4" height="7" border="0"
@@ -63,7 +63,7 @@
 							<tr>
 								<td width="80px">菜系</td>
 								<td>
-									<select name="cid" style="width: 80px">
+									<select name="foodType_id" style="width: 80px">
 										<%
 											IFoodTypeService foodTypeService = BeanFactory.getInstance("foodTypeService", IFoodTypeService.class);
 											List<FoodType> foodTypeList = foodTypeService.getAll();
@@ -72,8 +72,8 @@
 
 										<c:choose>
 											<c:when test="${not empty pageScope.foodTypeList }">
-												<c:forEach var="foodType" items="${pageScope.foodTypeList }" varStatus="vs">
-													<option value="${vs.count }">${foodType.typeName }</option>
+												<c:forEach var="foodType" items="${pageScope.foodTypeList }">
+													<option value="${foodType.id }">${foodType.typeName }</option>
 												</c:forEach>
 											</c:when>
 											<c:otherwise>
@@ -81,7 +81,7 @@
 											</c:otherwise>
 										</c:choose>
 									</select>
-								*<input type="hidden" name="id" value="1" /></td>
+								*<input type="hidden" name="id" value="${requestScope.food.id }" /></td>
 							</tr>
 							<tr>
 								<td width="80px">菜名</td>
@@ -101,15 +101,16 @@
 
 							<tr>
 								<td>简介</td>
-								<td><textarea name="introduce" class="TextareaStyle">${requestScope.food.remark }</textarea></td>
+								<td><textarea name="remark" class="TextareaStyle">${requestScope.food.remark }</textarea></td>
 							</tr>
 							<tr>
 								<td width="80px">菜品图片</td>
-								<td><img
-									style='max-width: 68px; width: 68px; width: expression(width &amp; gt; 68 ? "68 px " : width "px"); max-width: 68px;'
-									src="${requestScope.food.img }"> <input type="hidden"
-									name="image" value="baizhuoxia.jpg"> <input type="file"
-									name="imageUrl" /> *</td>
+								<td>
+									<img style='max-width: 68px; width: 68px; width: expression(width &amp; gt; 68 ? "68 px " : width "px"); max-width: 68px;'
+									src="${requestScope.food.img }">
+									<input type="hidden" name="img" value="${requestScope.food.img }">			
+									<input type="file" name="imageUrl" /> *</td>
+									
 							</tr>
 						</table>
 					</div>

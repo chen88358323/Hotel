@@ -66,6 +66,9 @@ public class Food {
 		this.img = img;
 	}
 
-	
-
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "id:"+id+",foodName:"+foodName+",foodType_id:"+foodType_id+",price:"+price+",mprice:"+mprice+",remark:"+remark+",img:"+img;
+	}
 }

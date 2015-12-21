@@ -59,16 +59,42 @@ public class FoodServlet extends HttpServlet {
 			save(request, response);
 		} else if ("saveList".equals(methodName)) {
 			saveList(request, response);
-		}else if ("list".equals(methodName)) {
-			list(request,response);
-		}else if ("update".equals(methodName)) {
-			update(request,response);
+		} else if ("list".equals(methodName)) {
+			list(request, response);
+		} else if ("updateList".equals(methodName)) {
+			updateList(request, response);
+		} else if ("update".equals(methodName)) {
+			update(request, response);
+		}else if ("delete".equals(methodName)) {
+			delete(request,response);
 		}
 
 	}
 
 	/**
+	 * 删除菜品
+	 * @param request
+	 * @param response
+	 * @throws IOException 
+	 * @throws ServletException 
+	 */
+	private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		int id = Integer.parseInt(request.getParameter("id"));
+		
+		try {
+			foodService.delete(id);
+			url=request.getRequestDispatcher("/FoodServlet?method=list");
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw new RuntimeException();
+		}
+		goTo(request, response, url);
+	}
+
+	/**
 	 * 更新菜品
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws IOException 
@@ -76,32 +102,90 @@ public class FoodServlet extends HttpServlet {
 	 */
 	private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+		ServletFileUpload servletFileUpload = new ServletFileUpload();
+		servletFileUpload.setFileItemFactory(new DiskFileItemFactory());
+		servletFileUpload.setFileSizeMax(30 * 1024 * 1024);
+		servletFileUpload.setSizeMax(100 * 1204 * 1024);
+		if (servletFileUpload.isMultipartContent(request)) {
+			try {
+				List<FileItem> items = servletFileUpload.parseRequest(request);
+				Food food = new Food();
+				for (FileItem fileItem : items) {
+					if (fileItem.isFormField()) {
+						// 普通表单处理
+						String fieldName = fileItem.getFieldName();
+						String value = fileItem.getString("utf-8");
+//						System.out.println(fieldName+" = "+value);
+						BeanUtils.setProperty(food, fieldName, value);
+					} else {
+						// 文件上传处理
+						String name = fileItem.getName();
+						if (!("".equals(name.trim())&&name!=null)) {
+							String id = UUID.randomUUID().toString();
+							name = id + "#" + name;
+							// 得到存储路径
+							String path = getServletContext().getRealPath("/upload");
+							// 将上传的文件保存到upload文件中
+							File file = new File(path, name);
+							// 将图片路径封装到对象中
+							food.setImg(path + "\\" + name);
+							fileItem.write(file);
+							// 删除临时目录
+							fileItem.delete();
+						}
+					}
+				}
+
+				foodService.update(food);
+//				System.out.println("here--->"+food);
+				url = request.getRequestDispatcher("/FoodServlet?method=list");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+		goTo(request, response, url);
+	}
+
+	/**
+	 * 更新菜品展示页面
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 * @throws ServletException
+	 */
+	private void updateList(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+
 		int id = Integer.parseInt(request.getParameter("id").toString());
 		Food food = foodService.findById(id);
-		
+
 		try {
 			request.setAttribute("food", food);
-			url=request.getRequestDispatcher("/sys/food/food_update.jsp");
+			url = request.getRequestDispatcher("/sys/food/food_update.jsp");
 		} catch (Exception e) {
 			// TODO: handle exception
 			throw new RuntimeException();
 		}
 		goTo(request, response, url);
-		
+
 	}
 
 	/**
 	 * 列出所有菜品
+	 * 
 	 * @param request
 	 * @param response
-	 * @throws IOException 
-	 * @throws ServletException 
+	 * @throws IOException
+	 * @throws ServletException
 	 */
 	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		List<Food> foodList = foodService.getAll();
-		
+
 		try {
 			request.setAttribute("foodList", foodList);
 			url = request.getRequestDispatcher("/sys/food/food_list.jsp");
@@ -109,7 +193,7 @@ public class FoodServlet extends HttpServlet {
 			// TODO: handle exception
 			throw new RuntimeException(e);
 		}
-		goTo(request,response,url);
+		goTo(request, response, url);
 	}
 
 	/**

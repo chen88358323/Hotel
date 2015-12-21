@@ -1,4 +1,5 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -49,28 +50,26 @@
 			</thead>
 			<!--显示数据列表 -->
 			<tbody id="TableData">
-				
-			 		<tr height="60">
-				 		<td>15375222</td>
-				 		<td>纽约</td>
-				 		<td>2014-12-08 23:29:18.0</td>
-				 		<td>204.0</td>
-				 		
-				 			
-				 				<td>未结账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				 					
-				 				</td>
-				 			
-				 			
-				 		
-				 		<td>
-							<a href="${pageContext.request.contextPath}/sys/orderDetail.jsp" class="FunctionButton">详细</a> 
-				 			
-				 				<a href="#" class="FunctionButton">结账</a>
-				 			
-				 		</td>
-			 		</tr>
-			 	
+				<c:choose>
+					<c:when test="${not empty requestScope.ordersList }">
+						<c:forEach var="orders" items="${requestScope.ordersList}" varStatus="vs">
+							<tr height="60">
+					 			<td>${vs.count}</td>
+					 			<td>${orders.table_id }</td>
+					 			<td>${orders.orderDate }</td>
+					 			<td>${orders.totalPrice }</td>				 			 			
+					 			<td>${orders.orderStatus }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					 			<td>
+								<a href="${pageContext.request.contextPath}/sys/orderDetail.jsp" class="FunctionButton">详细</a> 
+					 			<a href="#" class="FunctionButton">结账</a>
+					 		</td>
+			 			</tr>
+						</c:forEach>
+					</c:when>
+					<c:otherwise>
+						<td colspan="5">没有订单</td>
+					</c:otherwise>
+				</c:choose>		 	
 			</tbody>
 		</table>
 		<!-- 其他功能超链接 -->

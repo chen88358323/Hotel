@@ -91,11 +91,11 @@
 
 							<tr>
 								<td>简介</td>
-								<td><textarea name="introduce" class="TextareaStyle"></textarea></td>
+								<td><textarea name="remark" class="TextareaStyle"></textarea></td>
 							</tr>
 							<tr>
 								<td width="80px">菜品图片</td>
-								<td><input type="file" name="imageUrl" /> *</td>
+								<td><input type="file" name="img" /> *</td>
 							</tr>
 						</table>
 					</div>

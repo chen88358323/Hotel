@@ -98,9 +98,9 @@
 								<td>${food.price }&nbsp;</td>
 								<td>${food.mprice }&nbsp;</td>
 								<td><a
-									href="${pageContext.request.contextPath}/FoodServlet?id=${food.id}&method=update"
+									href="${pageContext.request.contextPath}/FoodServlet?id=${food.id}&method=updateList"
 									class="FunctionButton">更新</a> <a
-									href="${pageContext.request.contextPath}/sys/wirelessplatform/food.jsp?method=delete&id=1"
+									href="${pageContext.request.contextPath}/FoodServlet?method=delete&id=${food.id}"
 									onClick="return delConfirm();" class="FunctionButton">删除</a></td>
 							</tr>
 						</c:forEach>
