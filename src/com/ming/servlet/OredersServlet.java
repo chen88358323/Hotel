@@ -33,7 +33,30 @@ public class OredersServlet extends HttpServlet {
 		String methodName = request.getParameter("method");
 		if ("list".equals(methodName)) {
 			list(request, response);
+		}else if ("update".equals(methodName)) {
+			update(request,response);
 		}
+	}
+
+	/**
+	 * 更新订单
+	 * @param request
+	 * @param response
+	 * @throws IOException 
+	 * @throws ServletException 
+	 */
+	private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		int id = Integer.parseInt(request.getParameter("id"));
+		Orders orders = ordersService.findById(id);
+		ordersService.update(orders);
+		try {
+			url = request.getRequestDispatcher("/OredersServlet?method=list");
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw new RuntimeException();
+		}
+		goTo(request, response, url);
 	}
 
 	/**

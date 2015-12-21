@@ -24,6 +24,9 @@ public class OrdersServiceImpl implements IOrdersService {
 	@Override
 	public void update(Orders orders) {
 		// TODO Auto-generated method stub
+		if(orders.getOrderStatus()==0){
+			orders.setOrderStatus(1);
+		}
 		ordersDao.update(orders);
 	}
 
@@ -31,6 +34,12 @@ public class OrdersServiceImpl implements IOrdersService {
 	public List<Orders> getAll() {
 		// TODO Auto-generated method stub
 		return ordersDao.getAll();
+	}
+
+	@Override
+	public Orders findById(int id) {
+		// TODO Auto-generated method stub
+		return ordersDao.findById(id);
 	}
 
 }

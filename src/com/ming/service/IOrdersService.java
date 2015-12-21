@@ -16,4 +16,7 @@ public interface IOrdersService {
 	
 //	查询所有订单
 	public List<Orders> getAll();
+	
+//	根据id查询订单
+	public Orders findById(int id);
 }

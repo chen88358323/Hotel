@@ -8,13 +8,16 @@ import java.util.List;
 
 import com.ming.dao.IDinnerTableDao;
 import com.ming.entity.DinnerTable;
+import com.ming.entity.Orders;
 import com.ming.factory.BeanFactory;
 import com.ming.service.IDinnerTableService;
+import com.ming.service.IOrdersService;
 
 public class DinnerTableServiceImpl implements IDinnerTableService {
 
 	// 利用工厂得到DinnerTableDao的实例化对象
 	private IDinnerTableDao dinnerTableDao = BeanFactory.getInstance("dinnerTable", IDinnerTableDao.class);
+	private IOrdersService ordersService = BeanFactory.getInstance("ordersService",IOrdersService.class);
 
 	@Override
 	public void save(DinnerTable dinnerTable) {
@@ -37,6 +40,15 @@ public class DinnerTableServiceImpl implements IDinnerTableService {
 				dinnerTable.setTableStatus(1);
 				//			更新餐桌信息
 				dinnerTableDao.update(dinnerTable);
+				
+//				添加订单
+				Orders orders=new Orders();
+				orders.setTable_id(dinnerTable.getId());
+				orders.setOrderDate(orderTable);
+				orders.setOrderStatus(0);
+				orders.setTotalPrice(0.0);
+				ordersService.save(orders);
+				
 			} catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
@@ -51,6 +63,8 @@ public class DinnerTableServiceImpl implements IDinnerTableService {
 			
 //			更新餐桌信息
 			dinnerTableDao.update(dinnerTable);
+			
+			
 		}
 		
 	}

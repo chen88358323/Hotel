@@ -1,4 +1,8 @@
-﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+﻿<%@page import="com.ming.entity.DinnerTable"%>
+<%@page import="com.ming.factory.BeanFactory"%>
+<%@page import="com.ming.service.IDinnerTableService"%>
+<%@page import="javax.swing.text.DefaultEditorKit.InsertTabAction"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -55,13 +59,29 @@
 						<c:forEach var="orders" items="${requestScope.ordersList}" varStatus="vs">
 							<tr height="60">
 					 			<td>${vs.count}</td>
-					 			<td>${orders.table_id }</td>
+					 			<td>
+					 				<c:set var="tablie_id" value="${orders.table_id }"></c:set>
+					 				<%
+					 					int table_id=Integer.parseInt(pageContext.getAttribute("tablie_id").toString());
+					 					IDinnerTableService dinnerTableService=BeanFactory.getInstance("dinnerTableService",IDinnerTableService.class);
+					 					DinnerTable dinnerTable = dinnerTableService.findById(table_id);
+					 					out.print(dinnerTable.getTableName());
+					 				%>
+					 				
+					 			</td>
 					 			<td>${orders.orderDate }</td>
 					 			<td>${orders.totalPrice }</td>				 			 			
-					 			<td>${orders.orderStatus }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					 			<td>
-								<a href="${pageContext.request.contextPath}/sys/orderDetail.jsp" class="FunctionButton">详细</a> 
-					 			<a href="#" class="FunctionButton">结账</a>
+					 				<c:if test="${orders.orderStatus==0 }">
+					 					未结&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					 				</c:if>
+					 				<c:if test="${orders.orderStatus==1 }">
+					 					已结&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					 				</c:if>
+					 			</td>
+					 			<td>
+								<a href="${pageContext.request.contextPath}/sys/orders/orders_detail.jsp" class="FunctionButton">详细</a> 
+					 			<a href="${pageContext.request.contextPath}/OredersServlet?method=update&id=${orders.id}" class="FunctionButton">结账</a>
 					 		</td>
 			 			</tr>
 						</c:forEach>
